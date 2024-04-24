@@ -20,8 +20,10 @@ function addTodos() {
     todoContainer.appendChild(listContainer);
 }
 
-const onCheckBoxChange = (checkBox, item) => () => {
-    if (checkBox.checked) {
+const onCheckBoxChange = (event) => {
+    const item = event.target.parentNode;
+    const isChecked = event.target.checked;
+    if (isChecked) {
         item.style["text-decoration"] = "line-through";
         item.style["color"] = "gray";
     } else {
@@ -37,12 +39,9 @@ const createListItem = (item) => {
 
     const checkBoxNode = document.createElement("input");
     checkBoxNode.setAttribute("type", "checkbox");
-    checkBoxNode.addEventListener(
-        "change",
-        onCheckBoxChange(checkBoxNode, itemNode)
-    );
-
     itemNode.appendChild(checkBoxNode);
+
+    checkBoxNode.addEventListener("change", onCheckBoxChange);
 
     return itemNode;
 };
