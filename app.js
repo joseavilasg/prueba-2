@@ -1,37 +1,48 @@
 "use strict";
 document.body.onload = addTodos;
+const to_do = [
+    "Alimentar al perro",
+    "Estudiar para prueba escrita",
+    "Pagar taxes",
+    "Pasear a perro",
+    "Comprar entradas para el cine",
+];
+
 function addTodos() {
-    const to_do = [
-        "Alimentar al perro",
-        "Estudiar para prueba escrita",
-        "Pagar taxes",
-        "Pasear a perro",
-        "Comprar entradas para el cine",
-    ];
-
-    const todoHelper = document.getElementById("todo-helper");
     const todoContainer = document.getElementById("todo-container");
-    const todoUl = document.createElement("ul");
+    const listContainer = document.createElement("ul");
 
-    to_do.forEach((todo) => {
-        const el = document.createElement("li");
-        const textNode = document.createTextNode(todo);
-        el.appendChild(textNode);
-
-        const checkBox = document.createElement("input");
-        checkBox.setAttribute("type", "checkbox");
-        checkBox.addEventListener("change", function () {
-            if (checkBox.checked) {
-                el.style["text-decoration"] = "line-through";
-                el.style["color"] = "gray";
-            } else {
-                el.style["text-decoration"] = "none";
-                el.style["color"] = "black";
-            }
-        });
-        todoUl.appendChild(el);
-        todoUl.appendChild(checkBox);
+    to_do.forEach((todoItem) => {
+        const item = createListItem(todoItem);
+        listContainer.appendChild(item);
     });
 
-    todoContainer.appendChild(todoUl);
+    todoContainer.appendChild(listContainer);
 }
+
+const onCheckBoxChange = (checkBox, item) => () => {
+    if (checkBox.checked) {
+        item.style["text-decoration"] = "line-through";
+        item.style["color"] = "gray";
+    } else {
+        item.style["text-decoration"] = "none";
+        item.style["color"] = "black";
+    }
+};
+
+const createListItem = (item) => {
+    const itemNode = document.createElement("li");
+    const textNode = document.createTextNode(item);
+    itemNode.appendChild(textNode);
+
+    const checkBoxNode = document.createElement("input");
+    checkBoxNode.setAttribute("type", "checkbox");
+    checkBoxNode.addEventListener(
+        "change",
+        onCheckBoxChange(checkBoxNode, itemNode)
+    );
+
+    itemNode.appendChild(checkBoxNode);
+
+    return itemNode;
+};
