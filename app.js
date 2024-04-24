@@ -9,29 +9,29 @@ function addTodos() {
         "Comprar entradas para el cine",
     ];
 
-    const GI = {
-        createElement(tag, atributes) {
-            let element = document;
-            return document.createElement(tag);
-        },
-    };
-
     const todoHelper = document.getElementById("todo-helper");
     const todoContainer = document.getElementById("todo-container");
     const todoUl = document.createElement("ul");
 
     to_do.forEach((todo) => {
         const el = document.createElement("li");
-        el.createTextNode(todo);
-        const isChecked = el.getAttribute("checked");
-        if (isChecked) {
-            el.style["text-decoration"] = "line-through";
-            el.style["color"] = "gray";
-        }
+        const textNode = document.createTextNode(todo);
+        el.appendChild(textNode);
+
+        const checkBox = document.createElement("input");
+        checkBox.setAttribute("type", "checkbox");
+        checkBox.addEventListener("change", function () {
+            if (checkBox.checked) {
+                el.style["text-decoration"] = "line-through";
+                el.style["color"] = "gray";
+            } else {
+                el.style["text-decoration"] = "none";
+                el.style["color"] = "black";
+            }
+        });
         todoUl.appendChild(el);
+        todoUl.appendChild(checkBox);
     });
 
     todoContainer.appendChild(todoUl);
-
-    todoContainer.insertBefore(todoContainer, todoHelper);
 }
